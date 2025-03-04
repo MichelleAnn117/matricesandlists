@@ -1,0 +1,462 @@
+---
+title: "Two Dimensional Datasets: Matrices & Lists"
+author: "Michelle Knopp"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: bootstrap
+    toc: true
+    toc_float: true
+    css: styles.css.text
+---
+
+
+# Introduction
+
+This document explores the fundamental data structures in R: matrices and lists. We will discuss their definitions, creation, manipulation, and applications.
+
+
+R is a powerful tool for handling a wide range of data in the fields of data analysis. Matrices and lists are two important data structures that enable users to efficiently organize and manipulate data.
+
+**Matrices** are two-dimensional arrays that are useful for working with numerical data and performing linear algebra operations. They allow for straightforward mathematical calculations, making them essential for data science, machine learning, and modeling.
+
+**Lists**, on the other hand, are R's most flexible data structures. They allow users to store different types of mixed data, making them ideal for handling complex datasets.
+
+Matrices and lists are important because they transform unstructured data into structured formats that can be examined and analyzed.
+
+
+Today, we will explore how matrices and lists operate in R.
+
+# Section 1: Matrices
+
+## Definition of Matrices
+
+A matrix is a two-dimensional array, where data is arranged in rows and columns. Matrices allow for efficient storage and manipulation of data. Each element in a matrix is identified by its position, which is defined by its row and column indices.
+
+For example, a matrix with 3 rows and 3 columns can be represented as follows:
+
+```{r, fig.cap="3x3 Matrix", echo=FALSE}
+
+knitr::include_graphics("https://www.programiz.com/sites/tutorial2program/files/r-matrix-3-3.png")
+
+```
+
+
+## Creating Matrices in R
+
+We can use the function `matrix()` to create a matrix in R. The following is the syntax that we will use to create a matrix:
+
+`matrix(data, nrow, ncol, byrow, dimnames)`
+
+### Here are the parameters:
+
+**data** = values
+**nrow** = number of rows
+**ncol** = number of columns
+
+
+### Example
+
+```{r}
+
+# Example code for creating a matrix
+my_matrix = matrix(1:16, nrow = 4, ncol = 4)
+
+# Print the matrix
+print(my_matrix)
+
+```
+It is important to note that data is filled into the matrix column-wise by default. If we want to fill the row-wise, we can use:
+
+byrow = TRUE
+
+Let's see how our data changes when we include this parameter in our matrix.
+
+```{r}
+my_matrix = matrix(1:16, nrow = 4, ncol = 4, byrow = TRUE)
+
+print(my_matrix)
+
+```
+
+## Naming rows and columns
+We can also name our rows and columns for better clarity:
+
+```{r}
+# Assign row and column names
+
+rownames(my_matrix) <- c("A", "B", "C", "D")
+colnames(my_matrix) <- c("Yellow", "Red", "Blue", "Green")
+
+# Print the matrix
+print(my_matrix)
+```
+Now that we know how to create a matrix, let's explore how to pull information out.
+
+## Getting Matrix Metrics
+
+- dim = dimension of the matrix
+- nrow = number of rows
+- ncol = number of columns
+- length = number of elements
+
+```{r}
+
+dim(my_matrix)
+nrow(my_matrix)
+ncol(my_matrix)
+length(my_matrix)
+
+```
+
+## Accessing Elements in a Matrix
+
+You can access elements in a matrix using the square bracket notation `my_matrix[row, column]`. 
+
+For example, to access the element in the second row and third column:
+
+```{r}
+
+# Accessing an element
+
+my_matrix[2, 3]
+
+
+```
+To access entire rows or columns, you can use the following syntax:
+
+To access a specific row: `my_matrix[row, ]`
+To access a specific column: `my_matrix[, column]`
+
+
+For example, to access the 2nd row:
+```{r}
+
+my_matrix[2, ]
+```
+To access the entire 3rd column
+```{r}
+
+my_matrix[, 3]
+```
+## Changing Elements in a Matrix
+
+You can change the value of an element by assigning a new value to a specific position in the matrix:
+
+
+```{r}
+# Changing an element
+
+my_matrix[1, 1] <- 99  # Change the element in the first row, first column
+
+my_matrix
+
+# Let's change it back
+my_matrix[1, 1] <- 1
+```
+## Combining Matrices
+
+You can combine matrices using functions like `rbind()` for row-wise binding and `cbind()` for column-wise binding.
+
+Example:
+```{r}
+
+# Create another matrix
+matrix2 <- matrix(17:32, nrow = 4, ncol = 4, byrow = TRUE)
+
+# Combine matrices by rows
+combined_rows <- rbind(my_matrix, matrix2)
+print(combined_rows)
+
+# Combine matrices by columns
+combined_cols <- cbind(my_matrix, matrix2)
+print(combined_cols)
+
+```
+## Matrix Operations
+
+### Addition of Matrices
+
+You can add two matrices of the same dimensions using the `+` operator:
+
+```{r}
+
+# Adding two matrices
+
+added_matrix <- my_matrix + matrix2
+
+print(added_matrix)
+
+```
+### Multiplication of Matrices
+
+Matrix multiplication is done using the `%*%` operator. 
+Ensure the number of columns in the first matrix matches the number of rows in the second matrix.
+
+```{r}
+
+# Matrix multiplication
+multiplied_matrix <- my_matrix %*% t(matrix2)  # Transpose matrix2 for multiplication
+print(multiplied_matrix)
+
+```
+# Section 2: Lists
+
+## Definition of Lists
+
+A list in R is a versatile data structure that can hold an ordered collection of objects.
+
+Lists are heterogeneous vector, meaning they can contain a mix of various data types.
+
+## Creating Lists in R
+
+You can create a list using the `list()` function. 
+
+The following is the syntax that we will use to create a list:
+
+list(..., names=NULL)
+
+### Parameters
+- `...`: Objects to be included in the list.
+- `names`: Optional names for the elements in the list.
+
+
+### Example
+```{r}
+# Example code for creating a list
+
+my_list <- list(Name = "Michelle", Age = 42, Vehicles = c("Sierra", "Altima", "Jeep"), is_female = TRUE)
+
+print(my_list)
+
+```
+## Accessing Elements in a List
+
+Access elements in a list using the double square bracket notation `my_list[[index]]` or the `$` operator for named elements.
+
+### Accessing an element by index:
+```{r}
+
+my_list[[1]]
+
+```
+### Accessing an element by name:
+```{r}
+
+my_list$Age
+
+```
+
+## Modifying Elements in a List
+
+Modify the value of an element in a list by assigning a new value to a specific index or name.
+
+### Example
+
+```{r}
+
+# Modifying an element
+
+my_list$Age <- 29
+
+my_list
+
+```
+## Adding Elements to a List
+
+Add new elements to a list using the `c()` function to combine the existing list with new elements.
+
+```{r}
+
+my_list <- c(my_list, State = "Montana")
+
+my_list
+
+```
+## Removing Elements from a List
+
+Remove elements from a list using the `NULL` assignment.
+
+```{r}
+
+my_list$Vehicles <- NULL
+
+my_list
+```
+## Merging Lists
+
+TO merge 2 or more lists, use the c() function. 
+
+This operation combines the lists while preserving the names and order of the elements.
+
+### Example:
+```{r}
+# Create another list
+
+my_other_list <- list(Languages = "English", Hobbies = c("Hiking", "Traveling", "Painting"))
+
+# Merging lists
+
+merged_list <- c(my_list, my_other_list)
+
+merged_list
+
+```
+# Section 3: Conversions
+
+In this section, we will explore how to convert matrices and lists to data frames in R. These conversions can be necessary for various reasons, including:
+
+- **Data Manipulation**: Data frames provide more flexibility for manipulation, subsetting, and analysis than matrices or lists. They allow for easier access to columns by name and support operations that are common in data analysis workflows.
+- **Integration with Packages**: Many R packages for data analysis and visualization (like `dplyr`, `ggplot2`, and others) expect input data to be in data frame format. Converting to a data frame can help ensure compatibility with these tools.
+- **Enhanced Usability**: Data frames are often more intuitive to work with, especially for those new to R, as they resemble tables in databases or spreadsheets.
+
+## Converting a Matrix to a Data Frame
+
+A matrix can be easily converted to a data frame using the `as.data.frame()` function. This is particularly useful when you want to work with data in a more flexible format.
+
+### Example with PokéAPI
+
+Let's create a sample matrix using Pokémon data retrieved from the **PokéAPI**.
+
+Note, we will be using the following packages `httr` and `jsonlite`. Make sure these are installed and loaded before continuing. 
+
+-`httr` allows us to make HTTP requests
+-`jsonlite` allows us to work with json data that is retrieved from APIs, such as PokeAPI. It parses (or analyzes) to interpret data formats.
+
+```{r}
+
+# Install the httr package
+#install.packages("httr")
+
+# Install the jsonlite package
+#install.packages("jsonlite")
+
+# Load libraries
+library(httr)
+library(jsonlite)
+```
+
+### Fetching Pokémon data from PokéAPI
+
+```{r}
+response <- GET("https://pokeapi.co/api/v2/pokemon?limit=5")
+pokemon_data <- content(response, "parsed")
+```
+
+### Extracting relevant data into a matrix
+
+```{r}
+
+# Fetching Pokémon data from PokéAPI
+response <- GET("https://pokeapi.co/api/v2/pokemon?limit=20")
+pokemon_data <- content(response, "parsed")
+
+# Extracting relevant data into a matrix
+pokemon_info_matrix <- matrix(nrow = length(pokemon_data$results), ncol = 5)
+colnames(pokemon_info_matrix) <- c("Name", "Species", "Height", "Weight", "Abilities")
+
+for (i in 1:length(pokemon_data$results)) {
+  # Fetch detailed information about each Pokémon
+  pokemon_detail_response <- GET(pokemon_data$results[[i]]$url)
+  pokemon_detail <- content(pokemon_detail_response, "parsed")
+  
+  # Extract name, height, weight, species, and abilities
+  name <- pokemon_detail$name
+  height <- pokemon_detail$height
+  weight <- pokemon_detail$weight
+  species <- pokemon_detail$species$name
+  abilities <- sapply(pokemon_detail$abilities, function(x) x$ability$name)
+  
+  # Filling the matrix
+  pokemon_info_matrix[i, ] <- c(name, species, height, weight, paste(abilities, collapse = ", "))
+}
+
+# Print the original Pokémon info matrix
+print("Original Pokemon Info Matrix:")
+print(pokemon_info_matrix)
+```
+Notice that all the elements come back as characters, as denoted by the "".
+
+
+### Convert the matrix to a data frame
+
+To convert the matrix to a data frame we will use `(as.data.frame)`
+
+```{r}
+
+df_pokemon <- as.data.frame(pokemon_info_matrix, stringsAsFactors = FALSE)
+
+# Print the converted data frame
+print("Converted Data Frame from Pokemon Info Matrix:")
+print(df_pokemon)
+
+```
+
+## Converting a list to a data frame
+
+We will use the same data source, PokeAPI, to create a list
+
+### Extracting relevant data into a list
+```{r}
+
+# Create a list to store the relevant information
+pokemon_list <- list()
+
+for (i in 1:length(pokemon_data$results)) {
+  # Fetch detailed information about each Pokémon
+  pokemon_detail <- GET(pokemon_data$results[[i]]$url)
+  pokemon <- content(pokemon_detail, "parsed")
+  
+  # Extract relevant data
+  pokemon_info <- list(
+    Name = pokemon$name,
+    Species = pokemon$species$name,
+    Height = pokemon$height,
+    Weight = pokemon$weight,
+    Abilities = sapply(pokemon$abilities, function(x) x$ability$name),
+    Types = sapply(pokemon$types, function(x) x$type$name),
+    Sprite = pokemon$sprites$front_default  # Keep the URL for the sprite
+  )
+  
+  # Append the info to the list
+  pokemon_list[[i]] <- pokemon_info
+}
+
+pokemon_list[[i]]
+```
+
+### Convert the list to a data frame
+
+```{r}
+# Convert the list to a data frame
+pokemon_df <- do.call(rbind, lapply(pokemon_list, function(x) {
+  # Combine abilities and types into single strings
+  x$Abilities <- paste(x$Abilities, collapse = ", ")
+  x$Types <- paste(x$Types, collapse = ", ")
+  
+  # Create an HTML img tag for the sprite
+  x$Sprite <- paste0('<img src="', x$Sprite, '" width="100" height="100" />')  # Adjust size as needed
+  
+  # Return as a data frame
+  return(as.data.frame(t(unlist(x))))  # Use t(unlist(x)) to convert list to a data frame
+}))
+
+# Print the resulting data frame using kable to render images
+print("Data Frame of Pokémon Info:")
+knitr::kable(pokemon_df, escape = FALSE)  # Set escape=FALSE to render HTML
+
+```
+
+
+# Conclusion
+
+In this document, we have explored the fundamental data structures in R: matrices and lists. We discussed how to create, manipulate, and analyze these structures, emphasizing their importance in data analysis. Understanding these concepts is crucial for anyone working with data in R, as they form the foundation for more advanced data manipulation techniques.
+
+# References
+
+1. PokéAPI. PokéAPI Documentation. Retrieved from https://pokeapi.co/docs/v2
+2. Geeks for Geeks. (n.d.). R Programming Language. Retrieved from https://www.geeksforgeeks.org/r-programming-language/
+3. Ooms, J. (2014). jsonlite: A Robust, High Performance JSON Parser and Generator for R. Retrieved from https://cran.r-project.org/package=jsonlite
+4. H. Wickham. (2019). httr: Tools for Working with URLs and HTTP. Retrieved from https://cran.r-project.org/package=httr
+
+
